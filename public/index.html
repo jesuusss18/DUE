@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DUE | Your Student Planner</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo">DUE<span>.</span></div>
+        <p>Your deadlines, under control.</p>
+    </header>
+
+    <main class="container">
+
+        <section class="welcome">
+            <p class="eyebrow">YOUR WORKSPACE</p>
+            <h1>Stay ahead of your deadlines.</h1>
+            <p>Organize your assignments and focus on what matters.</p>
+        </section>
+
+        <section class="stats">
+            <div class="stat-card">
+                <p>Total Assignments</p>
+                <h2 id="totalTasks">0</h2>
+            </div>
+
+            <div class="stat-card">
+                <p>Pending</p>
+                <h2 id="pendingTasks">0</h2>
+            </div>
+
+            <div class="stat-card">
+                <p>Completed</p>
+                <h2 id="completedTasks">0</h2>
+            </div>
+        </section>
+
+        <section class="card">
+            <div class="section-heading">
+                <h2>New Assignment</h2>
+                <p>Add a task to your planner.</p>
+            </div>
+
+            <form id="assignmentForm">
+                <div class="form-grid">
+                    <div class="field">
+                        <label for="title">Assignment Title</label>
+                        <input type="text" id="title"
+                            placeholder="Example: Final Project"
+                            required>
+                    </div>
+
+                    <div class="field">
+                        <label for="course">Course</label>
+                        <input type="text" id="course"
+                            placeholder="Example: Software Development">
+                    </div>
+
+                    <div class="field">
+                        <label for="dueDate">Due Date</label>
+                        <input type="date" id="dueDate" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="priority">Priority</label>
+                        <select id="priority">
+                            <option value="Low">Low</option>
+                            <option value="Medium" selected>Medium</option>
+                            <option value="High">High</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="primary-btn">
+                    + Add Assignment
+                </button>
+            </form>
+        </section>
+
+        <section class="card">
+            <div class="section-heading">
+                <h2>My Assignments</h2>
+                <p>Keep track of everything you need to do.</p>
+            </div>
+
+            <div id="assignmentList"></div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>DUE © 2026 | Software Development Final Project</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
