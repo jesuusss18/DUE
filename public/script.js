@@ -1,18 +1,54 @@
 
+const API_URL = "/api/assignments";
+
 const form = document.getElementById("assignmentForm");
 const assignmentList = document.getElementById("assignmentList");
 
-let assignments = JSON.parse(
-    localStorage.getItem("dueAssignments") || "[]"
-);
+let assignments = [];
 
-function saveAssignments() {
-    localStorage.setItem(
-        "dueAssignments",
-        JSON.stringify(assignments)
-    );
+// Send requests to the backend
+async function apiRequest(url, options = {}) {
+    const response = await fetch(url, {
+        ...options,
+        headers: {
+            "Content-Type": "application/json",
+            ...options.headers
+        }
+    });
+
+    if (!response.ok) {
+        let message = "Something went wrong.";
+
+        try {
+            const data = await response.json();
+            message = data.error || message;
+        } catch {
+            // Some errors do not return JSON.
+        }
+
+        throw new Error(message);
+    }
+
+    if (response.status === 204) {
+        return null;
+    }
+
+    return response.json();
 }
 
+// Load assignments from the server
+async function loadAssignments() {
+    try {
+        assignments = await apiRequest(API_URL);
+        displayAssignments();
+    } catch (error) {
+        console.error(error);
+        assignmentList.textContent =
+            "Could not load assignments. Please try again.";
+    }
+}
+
+// Update dashboard statistics
 function updateStats() {
     const completed = assignments.filter(
         task => task.completed
@@ -28,6 +64,7 @@ function updateStats() {
         completed;
 }
 
+// Display assignments on the page
 function displayAssignments() {
     assignmentList.innerHTML = "";
 
@@ -36,6 +73,7 @@ function displayAssignments() {
         empty.className = "empty-state";
         empty.textContent =
             "No assignments yet. Add your first task!";
+
         assignmentList.appendChild(empty);
         updateStats();
         return;
@@ -69,46 +107,63 @@ function displayAssignments() {
         const actions = document.createElement("div");
         actions.className = "actions";
 
+        // Edit assignment
         const editBtn = document.createElement("button");
-            editBtn.className = "edit-btn";
-            editBtn.textContent = "Edit";
+        editBtn.className = "edit-btn";
+        editBtn.textContent = "Edit";
 
-            editBtn.addEventListener("click", () => {
-                editAssignment(assignment.id);
+        editBtn.addEventListener("click", () => {
+            editAssignment(assignment.id);
         });
 
+        // Complete or undo
         const completeBtn = document.createElement("button");
         completeBtn.className = "complete-btn";
         completeBtn.textContent = assignment.completed
             ? "Undo"
             : "Complete";
 
-        completeBtn.addEventListener("click", () => {
-            assignment.completed = !assignment.completed;
-            saveAssignments();
-            displayAssignments();
+        completeBtn.addEventListener("click", async () => {
+            try {
+                await apiRequest(
+                    `${API_URL}/${assignment.id}`,
+                    {
+                        method: "PUT",
+                        body: JSON.stringify({
+                            completed: !assignment.completed
+                        })
+                    }
+                );
+
+                await loadAssignments();
+            } catch (error) {
+                alert(error.message);
+            }
         });
 
+        // Delete assignment
         const deleteBtn = document.createElement("button");
         deleteBtn.className = "delete-btn";
         deleteBtn.textContent = "Delete";
 
-        deleteBtn.addEventListener("click", () => {
-            const confirmed = confirm(
-                "Are you sure you want to delete this assignment?"
-            );
+        deleteBtn.addEventListener("click", async () => {
+            if (!confirm("Delete this assignment?")) {
+                return;
+            }
 
-            if (!confirmed) return;
+            try {
+                await apiRequest(
+                    `${API_URL}/${assignment.id}`,
+                    { method: "DELETE" }
+                );
 
-            assignments = assignments.filter(
-                task => task.id !== assignment.id
-            );
-
-            saveAssignments();
-            displayAssignments();
+                await loadAssignments();
+            } catch (error) {
+                alert(error.message);
+            }
         });
 
-        actions.append(editBtn,completeBtn, deleteBtn);
+        actions.append(editBtn, completeBtn, deleteBtn);
         card.append(details, actions);
         assignmentList.appendChild(card);
     });
@@ -116,7 +171,8 @@ function displayAssignments() {
     updateStats();
 }
 
-form.addEventListener("submit", event => {
+// Create assignment
+form.addEventListener("submit", async event => {
     event.preventDefault();
 
     const title = document.getElementById("title").value.trim();
@@ -129,92 +185,92 @@ form.addEventListener("submit", event => {
         return;
     }
 
-    const assignment = {
-        id: crypto.randomUUID(),
-        title,
-        course,
-        dueDate,
-        priority,
-        completed: false
-    };
+    try {
+        await apiRequest(API_URL, {
+            method: "POST",
+            body: JSON.stringify({
+                title,
+                course,
+                dueDate,
+                priority
+            })
+        });
 
-    assignments.push(assignment);
-    saveAssignments();
-    displayAssignments();
-    form.reset();
+        form.reset();
+        await loadAssignments();
+    } catch (error) {
+        alert(error.message);
+    }
 });
 
-displayAssignments();
-
-
-function editAssignment(id) {
+// Edit assignment through the API
+async function editAssignment(id) {
     const assignment = assignments.find(
         task => task.id === id
     );
 
     if (!assignment) return;
 
-    const newTitle = prompt(
+    const title = prompt(
         "Edit assignment title:",
         assignment.title
     );
 
-    if (newTitle === null) return;
+    if (title === null) return;
 
-    if (!newTitle.trim()) {
+    if (!title.trim()) {
         alert("Assignment title cannot be empty.");
         return;
     }
 
-    const newCourse = prompt(
+    const course = prompt(
         "Edit course:",
         assignment.course
     );
 
-    if (newCourse === null) return;
+    if (course === null) return;
 
-    const newDueDate = prompt(
+    const dueDate = prompt(
         "Edit due date (YYYY-MM-DD):",
         assignment.dueDate
     );
 
-    if (newDueDate === null) return;
+    if (dueDate === null) return;
 
-    const dateIsValid =
-        /^\d{4}-\d{2}-\d{2}$/.test(newDueDate) &&
-        !Number.isNaN(Date.parse(newDueDate)) &&
-        new Date(newDueDate + "T00:00:00")
-            .toISOString()
-            .slice(0, 10) === newDueDate;
-
-    if (!dateIsValid) {
-        alert("Please enter a valid date in YYYY-MM-DD format.");
-        return;
-    }
-
-    const newPriority = prompt(
+    const priority = prompt(
         "Edit priority (Low, Medium, High):",
         assignment.priority
     );
 
-    if (newPriority === null) return;
+    if (priority === null) return;
 
-    const priority = ["Low", "Medium", "High"].find(
-        value => value.toLowerCase() === newPriority.trim().toLowerCase()
+    const validPriority = ["Low", "Medium", "High"].find(
+        value =>
+            value.toLowerCase() === priority.trim().toLowerCase()
     );
 
-    if (!priority) {
+    if (!validPriority) {
         alert("Priority must be Low, Medium, or High.");
         return;
     }
 
-    assignment.title = newTitle.trim();
-    assignment.course = newCourse.trim();
-    assignment.dueDate = newDueDate;
-    assignment.priority = priority;
+    try {
+        await apiRequest(`${API_URL}/${id}`, {
+            method: "PUT",
+            body: JSON.stringify({
+                title: title.trim(),
+                course: course.trim(),
+                dueDate,
+                priority: validPriority
+            })
+        });
 
-    saveAssignments();
-    displayAssignments();
-
-    alert("Assignment updated successfully!");
+        await loadAssignments();
+        alert("Assignment updated successfully!");
+    } catch (error) {
+        alert(error.message);
+    }
 }
+
+// Load assignments when the page opens
+loadAssignments();
