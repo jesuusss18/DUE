@@ -69,6 +69,14 @@ function displayAssignments() {
         const actions = document.createElement("div");
         actions.className = "actions";
 
+        const editBtn = document.createElement("button");
+            editBtn.className = "edit-btn";
+            editBtn.textContent = "Edit";
+
+            editBtn.addEventListener("click", () => {
+                editAssignment(assignment.id);
+        });
+
         const completeBtn = document.createElement("button");
         completeBtn.className = "complete-btn";
         completeBtn.textContent = assignment.completed
@@ -100,7 +108,7 @@ function displayAssignments() {
             displayAssignments();
         });
 
-        actions.append(completeBtn, deleteBtn);
+        actions.append(editBtn,completeBtn, deleteBtn);
         card.append(details, actions);
         assignmentList.appendChild(card);
     });
@@ -137,3 +145,76 @@ form.addEventListener("submit", event => {
 });
 
 displayAssignments();
+
+
+function editAssignment(id) {
+    const assignment = assignments.find(
+        task => task.id === id
+    );
+
+    if (!assignment) return;
+
+    const newTitle = prompt(
+        "Edit assignment title:",
+        assignment.title
+    );
+
+    if (newTitle === null) return;
+
+    if (!newTitle.trim()) {
+        alert("Assignment title cannot be empty.");
+        return;
+    }
+
+    const newCourse = prompt(
+        "Edit course:",
+        assignment.course
+    );
+
+    if (newCourse === null) return;
+
+    const newDueDate = prompt(
+        "Edit due date (YYYY-MM-DD):",
+        assignment.dueDate
+    );
+
+    if (newDueDate === null) return;
+
+    const dateIsValid =
+        /^\d{4}-\d{2}-\d{2}$/.test(newDueDate) &&
+        !Number.isNaN(Date.parse(newDueDate)) &&
+        new Date(newDueDate + "T00:00:00")
+            .toISOString()
+            .slice(0, 10) === newDueDate;
+
+    if (!dateIsValid) {
+        alert("Please enter a valid date in YYYY-MM-DD format.");
+        return;
+    }
+
+    const newPriority = prompt(
+        "Edit priority (Low, Medium, High):",
+        assignment.priority
+    );
+
+    if (newPriority === null) return;
+
+    const priority = ["Low", "Medium", "High"].find(
+        value => value.toLowerCase() === newPriority.trim().toLowerCase()
+    );
+
+    if (!priority) {
+        alert("Priority must be Low, Medium, or High.");
+        return;
+    }
+
+    assignment.title = newTitle.trim();
+    assignment.course = newCourse.trim();
+    assignment.dueDate = newDueDate;
+    assignment.priority = priority;
+
+    saveAssignments();
+    displayAssignments();
+
+    alert("Assignment updated successfully!");
+}
