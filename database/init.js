@@ -1,10 +1,10 @@
-
 require("dotenv").config();
 
 const pool = require("../src/config/database");
 
 async function initializeDatabase() {
     try {
+        // Create assignments table
         await pool.query(`
             CREATE TABLE IF NOT EXISTS assignments (
                 id UUID PRIMARY KEY,
@@ -17,10 +17,23 @@ async function initializeDatabase() {
             );
         `);
 
+        // Create users table
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS users (
+                id UUID PRIMARY KEY,
+                name VARCHAR(100) NOT NULL,
+                email VARCHAR(255) UNIQUE NOT NULL,
+                password_hash TEXT NOT NULL,
+                created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+            );
+        `);
+
         console.log("DUE database initialized successfully!");
+
     } catch (error) {
         console.error("Database initialization failed:", error);
         process.exitCode = 1;
+
     } finally {
         await pool.end();
     }
