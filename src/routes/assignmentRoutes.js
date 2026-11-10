@@ -1,12 +1,14 @@
-
 const express = require("express");
 const router = express.Router();
 
-const controller = require("../controllers/assignmentController");
+const assignmentController = require("../controllers/assignmentController");
+const authMiddleware = require("../middleware/authMiddleware");
 
-router.get("/", controller.getAssignments);
-router.post("/", controller.addAssignment);
-router.put("/:id", controller.updateAssignment);
-router.delete("/:id", controller.deleteAssignment);
+router.use(authMiddleware);
+
+router.get("/", assignmentController.getAssignments);
+router.post("/", assignmentController.addAssignment);
+router.put("/:id", assignmentController.updateAssignment);
+router.delete("/:id", assignmentController.deleteAssignment);
 
 module.exports = router;

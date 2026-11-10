@@ -1,3 +1,4 @@
+
 const pool = require("../config/database");
 
 const fields = `
@@ -10,35 +11,41 @@ const fields = `
     created_at AS "createdAt"
 `;
 
-async function getAllAssignments() {
+// Get assignments belonging to the logged-in user
+async function getAllAssignments(userId) {
     const result = await pool.query(
         `SELECT ${fields}
          FROM assignments
-         ORDER BY due_date ASC`
+         WHERE user_id = $1
+         ORDER BY due_date ASC`,
+        [userId]
     );
 
     return result.rows;
 }
 
-async function getAssignmentById(id) {
+// Find an assignment owned by the user
+async function getAssignmentById(id, userId) {
     const result = await pool.query(
         `SELECT ${fields}
          FROM assignments
-         WHERE id = $1`,
-        [id]
+         WHERE id = $1 AND user_id = $2`,
+        [id, userId]
     );
 
     return result.rows[0] || null;
 }
 
-async function addAssignment(assignment) {
+// Create an assignment for the logged-in user
+async function addAssignment(assignment, userId) {
     const result = await pool.query(
         `INSERT INTO assignments
-         (id, title, course, due_date, priority, completed)
-         VALUES ($1, $2, $3, $4, $5, $6)
+         (id, user_id, title, course, due_date, priority, completed)
+         VALUES ($1, $2, $3, $4, $5, $6, $7)
          RETURNING ${fields}`,
         [
             assignment.id,
+            userId,
             assignment.title,
             assignment.course,
             assignment.dueDate,
@@ -50,10 +57,13 @@ async function addAssignment(assignment) {
     return result.rows[0];
 }
 
-async function updateAssignment(id, updates) {
-    const existing = await getAssignmentById(id);
+// Update only an assignment owned by the user
+async function updateAssignment(id, updates, userId) {
+    const existing = await getAssignmentById(id, userId);
 
-    if (!existing) return null;
+    if (!existing) {
+        return null;
+    }
 
     const updated = { ...existing, ...updates };
 
@@ -64,7 +74,7 @@ async function updateAssignment(id, updates) {
              due_date = $3,
              priority = $4,
              completed = $5
-         WHERE id = $6
+         WHERE id = $6 AND user_id = $7
          RETURNING ${fields}`,
         [
             updated.title,
@@ -72,20 +82,24 @@ async function updateAssignment(id, updates) {
             updated.dueDate,
             updated.priority,
             updated.completed,
-            id
+            id,
+            userId
         ]
     );
 
     return result.rows[0] || null;
 }
 
-async function deleteAssignment(id) {
+// Delete only an assignment owned by the user
+async function deleteAssignment(id, userId) {
     const result = await pool.query(
-        "DELETE FROM assignments WHERE id = $1",
-        [id]
+        `DELETE FROM assignments
+         WHERE id = $1 AND user_id = $2
+         RETURNING id`,
+        [id, userId]
     );
 
-    return result.rowCount > 0;
+    return result.rows[0] || null;
 }
 
 module.exports = {
