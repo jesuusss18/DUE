@@ -51,7 +51,7 @@ function validateAssignment(data, partial = false) {
 
 async function getAssignments(req, res) {
     try {
-        const assignments = await Assignment.getAllAssignments();
+        const assignments = await Assignment.getAllAssignments(req.user.id);
         res.json(assignments);
     } catch (error) {
         console.error("Get assignments error:", error);
@@ -68,7 +68,7 @@ async function addAssignment(req, res) {
 
     try {
         const assignment = createAssignment(req.body);
-        const saved = await Assignment.addAssignment(assignment);
+        const saved = await Assignment.addAssignment(assignment, req.user.id);
 
         res.status(201).json(saved);
     } catch (error) {
@@ -87,7 +87,8 @@ async function updateAssignment(req, res) {
     try {
         const updated = await Assignment.updateAssignment(
             req.params.id,
-            req.body
+            req.body,
+            req.user.id
         );
 
         if (!updated) {
@@ -106,7 +107,8 @@ async function updateAssignment(req, res) {
 async function deleteAssignment(req, res) {
     try {
         const deleted = await Assignment.deleteAssignment(
-            req.params.id
+            req.params.id,
+            req.user.id
         );
 
         if (!deleted) {
