@@ -3,7 +3,7 @@ require("dotenv").config();
 
 const express = require("express");
 const path = require("path");
-
+const assignmentRoutes = require("./src/routes/assignmentRoutes");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -21,6 +21,9 @@ app.get("/health", (req, res) => {
         message: "Server is running"
     });
 });
+
+// Assignment routes
+app.use("/api/assignments", assignmentRoutes);
 
 // Start the server
 app.listen(PORT, () => {
