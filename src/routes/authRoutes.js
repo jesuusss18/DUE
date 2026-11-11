@@ -30,4 +30,14 @@ router.get("/me", authMiddleware, async (req, res) => {
     }
 });
 
+router.post("/logout", (req, res) => {
+    res.clearCookie("due_session", {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        path: "/"
+    });
+
+    res.json({ message: "Logged out successfully." });
+});
 module.exports = router;
