@@ -8,6 +8,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const authRoutes = require("./src/routes/authRoutes");
 const cookieParser = require("cookie-parser");
+const examRoutes = require("./src/routes/examRoutes");
 
 // Allow the server to receive JSON
 app.use(express.json());
@@ -30,6 +31,9 @@ app.use("/api/assignments", assignmentRoutes);
 
 // Authentication routes
 app.use("/api/auth", authRoutes);
+
+// Exam routes
+app.use("/api/exams", examRoutes);
 
 // Start the server
 app.listen(PORT, () => {

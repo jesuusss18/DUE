@@ -34,6 +34,20 @@ async function initializeDatabase() {
         console.error("Database initialization failed:", error);
         process.exitCode = 1;
 
+    await pool.query(`
+        CREATE TABLE IF NOT EXISTS exams (
+            id UUID PRIMARY KEY,
+            user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+            title VARCHAR(255) NOT NULL,
+            course VARCHAR(255) NOT NULL DEFAULT '',
+            exam_date DATE NOT NULL,
+            location VARCHAR(255) NOT NULL DEFAULT '',
+            created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+        );
+    `);
+
+    console.log("Exams table ready.");
+
     } finally {
         await pool.end();
     }
