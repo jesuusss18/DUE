@@ -1,101 +1,183 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DUE | Your Student Planner</title>
-    <link rel="stylesheet" href="style.css">
+    <title>DUE — Your deadlines, under control</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/landing.css">
 </head>
 <body>
 
-    <header class="header">
-        <div class="logo">DUE<span>.</span></div>
-        <p>Your deadlines, under control.</p>
+    <header class="site-header">
+        <div class="container nav">
+            <a href="/" class="logo">due<span>.</span></a>
+
+            <nav class="nav-links" aria-label="Main navigation">
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How it works</a>
+                <a href="/login.html" class="login-link">Log in</a>
+                <a href="/register.html" class="nav-button">Get started</a>
+            </nav>
+        </div>
     </header>
 
-    <main class="container">
+    <main>
+        <section class="hero container">
+            <div class="hero-content">
+                <p class="eyebrow">BUILT FOR STUDENTS</p>
 
-        <section class="welcome">
-            <p class="eyebrow">YOUR WORKSPACE</p>
-            <h1>Stay ahead of your deadlines.</h1>
-            <p>Organize your assignments and focus on what matters.</p>
-        </section>
+                <h1>
+                    Your deadlines,<br>
+                    <span>under control.</span>
+                </h1>
 
-        <section class="stats">
-            <div class="stat-card">
-                <p>Total Assignments</p>
-                <h2 id="totalTasks">0</h2>
-            </div>
+                <p class="hero-description">
+                    One simple place to manage your assignments,
+                    prepare for exams, and stay on top of your schedule.
+                    Less stress. More focus.
+                </p>
 
-            <div class="stat-card">
-                <p>Pending</p>
-                <h2 id="pendingTasks">0</h2>
-            </div>
+                <div class="hero-actions">
+                    <a href="/register.html" class="button-primary">
+                        Start planning <span aria-hidden="true">→</span>
+                    </a>
 
-            <div class="stat-card">
-                <p>Completed</p>
-                <h2 id="completedTasks">0</h2>
-            </div>
-        </section>
-
-        <section class="card">
-            <div class="section-heading">
-                <h2>New Assignment</h2>
-                <p>Add a task to your planner.</p>
-            </div>
-
-            <form id="assignmentForm">
-                <div class="form-grid">
-                    <div class="field">
-                        <label for="title">Assignment Title</label>
-                        <input type="text" id="title"
-                            placeholder="Example: Final Project"
-                            required>
-                    </div>
-
-                    <div class="field">
-                        <label for="course">Course</label>
-                        <input type="text" id="course"
-                            placeholder="Example: Software Development">
-                    </div>
-
-                    <div class="field">
-                        <label for="dueDate">Due Date</label>
-                        <input type="date" id="dueDate" required>
-                    </div>
-
-                    <div class="field">
-                        <label for="priority">Priority</label>
-                        <select id="priority">
-                            <option value="Low">Low</option>
-                            <option value="Medium" selected>Medium</option>
-                            <option value="High">High</option>
-                        </select>
-                    </div>
+                    <a href="#features" class="button-secondary">
+                        Explore features
+                    </a>
                 </div>
 
-                <button type="submit" class="primary-btn">
-                    + Add Assignment
-                </button>
-            </form>
-        </section>
-
-        <section class="card">
-            <div class="section-heading">
-                <h2>My Assignments</h2>
-                <p>Keep track of everything you need to do.</p>
+                <p class="hero-note">
+                    Your semester, organized your way.
+                </p>
             </div>
 
-            <div id="assignmentList"></div>
+            <div class="preview">
+                <div class="preview-top">
+                    <span class="preview-logo">due.</span>
+                    <span class="preview-label">YOUR WORKSPACE</span>
+                </div>
+
+                <div class="preview-body">
+                    <p class="preview-date">YOUR WEEK AT A GLANCE</p>
+                    <h2>Stay ahead of what's next.</h2>
+
+                    <div class="stats">
+                        <div class="stat">
+                            <strong>08</strong>
+                            <span>Tasks</span>
+                        </div>
+                        <div class="stat">
+                            <strong>03</strong>
+                            <span>Upcoming</span>
+                        </div>
+                        <div class="stat">
+                            <strong>05</strong>
+                            <span>Completed</span>
+                        </div>
+                    </div>
+
+                    <div class="task-preview">
+                        <div class="task-heading">
+                            <h3>Upcoming deadlines</h3>
+                            <span>This week</span>
+                        </div>
+
+                        <div class="task-item">
+                            <div class="task-dot high"></div>
+                            <div class="task-info">
+                                <strong>Software Development Project</strong>
+                                <span>Computer Science</span>
+                            </div>
+                            <span class="task-date">Nov 20</span>
+                        </div>
+
+                        <div class="task-item">
+                            <div class="task-dot medium"></div>
+                            <div class="task-info">
+                                <strong>Business Communication</strong>
+                                <span>Presentation</span>
+                            </div>
+                            <span class="task-date">Nov 23</span>
+                        </div>
+
+                        <div class="task-item">
+                            <div class="task-dot low"></div>
+                            <div class="task-info">
+                                <strong>Physics Review</strong>
+                                <span>Study session</span>
+                            </div>
+                            <span class="task-date">Nov 25</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
+        <section class="features-section" id="features">
+            <div class="container">
+                <p class="eyebrow">EVERYTHING IN ONE PLACE</p>
+                <h2>Made for the way you study.</h2>
+                <p class="section-description">
+                    Keep track of the important things without
+                    making your schedule more complicated.
+                </p>
+
+                <div class="feature-grid">
+                    <article class="feature-card">
+                        <span class="feature-number">01 /</span>
+                        <h3>Manage assignments</h3>
+                        <p>
+                            Organize your coursework, set priorities,
+                            and keep track of completed tasks.
+                        </p>
+                    </article>
+
+                    <article class="feature-card">
+                        <span class="feature-number">02 /</span>
+                        <h3>Prepare for exams</h3>
+                        <p>
+                            Keep your exam dates organized and
+                            know what's coming next.
+                        </p>
+                    </article>
+
+                    <article class="feature-card">
+                        <span class="feature-number">03 /</span>
+                        <h3>See your calendar</h3>
+                        <p>
+                            View deadlines and important dates
+                            together in one clear schedule.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section" id="how-it-works">
+            <div class="container cta-content">
+                <p class="eyebrow">READY WHEN YOU ARE</p>
+                <h2>A clearer semester starts here.</h2>
+                <p>
+                    Create your account, add your deadlines,
+                    and start building better study habits.
+                </p>
+                <a href="/register.html" class="button-primary">
+                    Create your account <span aria-hidden="true">→</span>
+                </a>
+            </div>
+        </section>
     </main>
 
     <footer>
-        <p>DUE © 2026 | Software Development Final Project</p>
+        <div class="container footer-content">
+            <a href="/" class="logo">due<span>.</span></a>
+            <p>© 2026 DUE. Built for students.</p>
+        </div>
     </footer>
 
-    <script src="script.js"></script>
 </body>
 </html>
