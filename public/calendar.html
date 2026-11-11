@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar — DUE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/dashboard.css">
+    <link rel="stylesheet" href="/calendar.css">
+    <script src="/calendar.js" defer></script>
+</head>
+<body>
+    <div class="app-layout">
+        <aside class="sidebar">
+            <a href="/" class="logo">due<span>.</span></a>
+            <p class="sidebar-label">WORKSPACE</p>
+
+            <nav class="sidebar-nav" aria-label="Workspace">
+                <a href="/dashboard.html">◫ Overview</a>
+                <a href="/tasks.html">☑ My Tasks</a>
+                <a href="/exams.html">▤ Exams</a>
+                <a href="/calendar.html" class="active" aria-current="page">
+                    ▦ Calendar
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="user-profile">
+                    <div class="avatar" id="userAvatar">S</div>
+                    <div>
+                        <strong id="sidebarName">Student</strong>
+                        <span>Personal workspace</span>
+                    </div>
+                </div>
+                <button id="logoutButton" class="logout-button">
+                    Log out
+                </button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow">YOUR WORKSPACE</p>
+                    <h1>Calendar</h1>
+                    <p class="subtitle">
+                        All your deadlines, in one place.
+                    </p>
+                </div>
+                <a href="/tasks.html?new=1" class="primary-button">
+                    + New task
+                </a>
+            </header>
+
+            <section class="panel calendar-panel">
+                <div class="calendar-toolbar">
+                    <div>
+                        <p class="eyebrow">MONTHLY OVERVIEW</p>
+                        <h2 id="monthTitle">Calendar</h2>
+                    </div>
+
+                    <div class="calendar-navigation">
+                        <button id="previousMonth" type="button"
+                            aria-label="Previous month">‹</button>
+                        <button id="todayButton" type="button">Today</button>
+                        <button id="nextMonth" type="button"
+                            aria-label="Next month">›</button>
+                    </div>
+                </div>
+
+                <div class="calendar-legend">
+                    <span><i class="legend-dot task-dot"></i> Tasks</span>
+                    <span><i class="legend-dot exam-dot"></i> Exams</span>
+                </div>
+
+                <div class="calendar-weekdays" aria-hidden="true">
+                    <span>Sun</span>
+                    <span>Mon</span>
+                    <span>Tue</span>
+                    <span>Wed</span>
+                    <span>Thu</span>
+                    <span>Fri</span>
+                    <span>Sat</span>
+                </div>
+
+                <div id="calendarGrid" class="calendar-grid"
+                    aria-label="Monthly calendar"></div>
+            </section>
+
+            <section class="panel">
+                <div class="panel-header">
+                    <div>
+                        <p class="eyebrow">SELECTED DAY</p>
+                        <h2 id="selectedDateTitle">Activities</h2>
+                    </div>
+                    <span id="activityCount" class="calendar-count"></span>
+                </div>
+
+                <p id="calendarMessage" class="calendar-message"
+                    role="status"></p>
+                <div id="dayActivities" class="day-activities">
+                    <p class="calendar-empty">Loading activities...</p>
+                </div>
+            </section>
+
+            <footer class="dashboard-footer">
+                <span>© 2026 DUE</span>
+                <span>Your deadlines, under control.</span>
+            </footer>
+        </main>
+    </div>
+</body>
+</html>
