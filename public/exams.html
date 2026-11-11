@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exams — DUE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/dashboard.css">
+    <link rel="stylesheet" href="/exams.css">
+    <script src="/exams.js" defer></script>
+</head>
+<body>
+    <div class="app-layout">
+        <aside class="sidebar">
+            <a href="/" class="logo">due<span>.</span></a>
+            <p class="sidebar-label">WORKSPACE</p>
+
+            <nav class="sidebar-nav">
+                <a href="/dashboard.html">◫ Overview</a>
+                <a href="/tasks.html">☑ My Tasks</a>
+                <a href="/exams.html" class="active">▤ Exams</a>
+                <a href="/calendar.html">▦ Calendar</a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="user-profile">
+                    <div class="avatar" id="userAvatar">S</div>
+                    <div>
+                        <strong id="sidebarName">Student</strong>
+                        <span>Personal workspace</span>
+                    </div>
+                </div>
+                <button id="logoutButton" class="logout-button">Log out</button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow">YOUR WORKSPACE</p>
+                    <h1>Exams</h1>
+                    <p class="subtitle">Stay prepared for every important date.</p>
+                </div>
+                <button class="primary-button" id="newExamButton">
+                    + New exam
+                </button>
+            </header>
+
+            <section class="exam-summary">
+                <div class="exam-summary-card">
+                    <span>Total exams</span>
+                    <strong id="totalExams">0</strong>
+                </div>
+                <div class="exam-summary-card">
+                    <span>Upcoming exams</span>
+                    <strong id="upcomingExams">0</strong>
+                </div>
+                <div class="exam-summary-card">
+                    <span>Next exam</span>
+                    <strong id="nextExam">—</strong>
+                </div>
+            </section>
+
+            <section class="panel exam-form-panel" id="examFormPanel" hidden>
+                <div class="panel-header">
+                    <div>
+                        <p class="eyebrow">EXAM DETAILS</p>
+                        <h2 id="examFormHeading">Create a new exam</h2>
+                    </div>
+                    <button id="cancelExamButton" class="exam-secondary-button">
+                        Cancel
+                    </button>
+                </div>
+
+                <form id="examForm">
+                    <div class="exam-form-grid">
+                        <div class="exam-field">
+                            <label for="examTitle">Exam title</label>
+                            <input id="examTitle" maxlength="255" required
+                                placeholder="Example: Physics Final Exam">
+                        </div>
+                        <div class="exam-field">
+                            <label for="examCourse">Course</label>
+                            <input id="examCourse" maxlength="255"
+                                placeholder="Example: Physics">
+                        </div>
+                        <div class="exam-field">
+                            <label for="examDate">Exam date</label>
+                            <input id="examDate" type="date" required>
+                        </div>
+                        <div class="exam-field">
+                            <label for="examLocation">Location</label>
+                            <input id="examLocation" maxlength="255"
+                                placeholder="Example: Room 204">
+                        </div>
+                    </div>
+                    <button type="submit" class="primary-button exam-save-button"
+                        id="saveExamButton">Save exam</button>
+                </form>
+            </section>
+
+            <section class="panel">
+                <div class="panel-header">
+                    <div>
+                        <p class="eyebrow">EXAM SCHEDULE</p>
+                        <h2>All exams</h2>
+                    </div>
+                    <span id="examCount" class="exam-count"></span>
+                </div>
+                <p id="examMessage" class="exam-message" role="status"></p>
+                <div id="examList" class="exam-list">
+                    <p class="exam-empty">Loading exams...</p>
+                </div>
+            </section>
+
+            <footer class="dashboard-footer">
+                <span>© 2026 DUE</span>
+                <span>Your deadlines, under control.</span>
+            </footer>
+        </main>
+    </div>
+</body>
+</html>

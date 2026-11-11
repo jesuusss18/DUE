@@ -104,17 +104,23 @@ async function login(req, res) {
 
         const token = generateToken(user);
 
+        res.cookie("due_session", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
+            maxAge: 2 * 60 * 60 * 1000,
+            path: "/"
+        });
+
         return res.json({
             message: "Login successful.",
-            token,
             user: {
                 id: user.id,
                 name: user.name,
                 email: user.email
             }
         });
-
-    } catch (error) {
+            } catch (error) {
         console.error("Login error:", error);
 
         return res.status(500).json({

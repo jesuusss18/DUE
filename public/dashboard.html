@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard — DUE</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/dashboard.css">
+    <script src="/dashboard.js" defer></script>
+</head>
+<body>
+    <div class="app-layout">
+        <aside class="sidebar">
+            <a href="/" class="logo">due<span>.</span></a>
+
+            <p class="sidebar-label">WORKSPACE</p>
+
+            <nav class="sidebar-nav" aria-label="Workspace">
+                <a href="/dashboard.html" class="active">
+                    <span>◫</span> Overview
+                </a>
+                <a href="/tasks.html">
+                    <span>☑</span> My Tasks
+                </a>
+                <a href="/exams.html">
+                    <span>▤</span> Exams
+                </a>
+                <a href="/calendar.html">
+                    <span>▦</span> Calendar
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="user-profile">
+                    <div class="avatar" id="userAvatar">S</div>
+                    <div>
+                        <strong id="sidebarName">Student</strong>
+                        <span>Personal workspace</span>
+                    </div>
+                </div>
+
+                <button id="logoutButton" class="logout-button">
+                    Log out
+                </button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow">YOUR WORKSPACE</p>
+                    <h1 id="welcomeTitle">Good to see you.</h1>
+                    <p class="subtitle">
+                        Here's what's happening with your studies.
+                    </p>
+                </div>
+
+                <div class="topbar-actions">
+                    <span id="todayDate" class="today-date"></span>
+                    <a href="/tasks.html?new=1" class="primary-button">
+                        + New task
+                    </a>
+                </div>
+            </header>
+
+            <section class="stats-grid" aria-label="Task summary">
+                <article class="stat-card">
+                    <span>Total tasks</span>
+                    <strong id="totalTasks">—</strong>
+                    <small>All assignments</small>
+                </article>
+
+                <article class="stat-card">
+                    <span>Upcoming</span>
+                    <strong id="upcomingTasks">—</strong>
+                    <small>Next 7 days</small>
+                </article>
+
+                <article class="stat-card">
+                    <span>Completed</span>
+                    <strong id="completedTasks">—</strong>
+                    <small>Finished assignments</small>
+                </article>
+
+                <article class="stat-card accent-card">
+                    <span>Completion rate</span>
+                    <strong id="completionRate">—</strong>
+                    <small>Your progress</small>
+                </article>
+            </section>
+
+            <section class="content-grid">
+                <article class="panel">
+                    <div class="panel-header">
+                        <div>
+                            <p class="eyebrow">STAY ON TRACK</p>
+                            <h2>Upcoming deadlines</h2>
+                        </div>
+                        <a href="/tasks.html" class="text-link">
+                            View all →
+                        </a>
+                    </div>
+
+                    <div id="upcomingList" class="upcoming-list">
+                        <p class="empty-state">Loading your assignments...</p>
+                    </div>
+                </article>
+
+                <article class="panel quick-access">
+                    <div class="panel-header">
+                        <div>
+                            <p class="eyebrow">YOUR TOOLS</p>
+                            <h2>Quick access</h2>
+                        </div>
+                    </div>
+
+                    <a href="/tasks.html" class="quick-link">
+                        <div>
+                            <strong>My Tasks</strong>
+                            <span>Manage your assignments</span>
+                        </div>
+                        <span aria-hidden="true">↗</span>
+                    </a>
+
+                    <a href="/exams.html" class="quick-link">
+                        <div>
+                            <strong>Exams</strong>
+                            <span>Prepare for what's next</span>
+                        </div>
+                        <span aria-hidden="true">↗</span>
+                    </a>
+
+                    <a href="/calendar.html" class="quick-link">
+                        <div>
+                            <strong>Calendar</strong>
+                            <span>See your schedule</span>
+                        </div>
+                        <span aria-hidden="true">↗</span>
+                    </a>
+                </article>
+            </section>
+
+            <footer class="dashboard-footer">
+                <span>© 2026 DUE</span>
+                <span>Your deadlines, under control.</span>
+            </footer>
+        </main>
+    </div>
+</body>
+</html>

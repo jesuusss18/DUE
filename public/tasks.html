@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Tasks — DUE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/dashboard.css">
+    <link rel="stylesheet" href="/tasks.css">
+    <script src="/tasks.js" defer></script>
+</head>
+<body>
+    <div class="app-layout">
+        <aside class="sidebar">
+            <a href="/" class="logo">due<span>.</span></a>
+            <p class="sidebar-label">WORKSPACE</p>
+
+            <nav class="sidebar-nav" aria-label="Workspace">
+                <a href="/dashboard.html"><span>◫</span> Overview</a>
+                <a href="/tasks.html" class="active" aria-current="page">
+                    <span>☑</span> My Tasks
+                </a>
+                <a href="/exams.html"><span>▤</span> Exams</a>
+                <a href="/calendar.html"><span>▦</span> Calendar</a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="user-profile">
+                    <div class="avatar" id="userAvatar">S</div>
+                    <div>
+                        <strong id="sidebarName">Student</strong>
+                        <span>Personal workspace</span>
+                    </div>
+                </div>
+                <button id="logoutButton" class="logout-button">
+                    Log out
+                </button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow">YOUR WORKSPACE</p>
+                    <h1>My Tasks</h1>
+                    <p class="subtitle">
+                        Keep your assignments organized and stay on track.
+                    </p>
+                </div>
+                <button id="newTaskButton" class="primary-button" type="button">
+                    + New task
+                </button>
+            </header>
+
+            <section class="stats-grid task-stats" aria-label="Task summary">
+                <article class="stat-card">
+                    <span>Total tasks</span>
+                    <strong id="totalTasks">—</strong>
+                    <small>All assignments</small>
+                </article>
+                <article class="stat-card">
+                    <span>Pending</span>
+                    <strong id="pendingTasks">—</strong>
+                    <small>Still to complete</small>
+                </article>
+                <article class="stat-card">
+                    <span>Completed</span>
+                    <strong id="completedTasks">—</strong>
+                    <small>Finished assignments</small>
+                </article>
+                <article class="stat-card accent-card">
+                    <span>High priority</span>
+                    <strong id="highPriorityTasks">—</strong>
+                    <small>Pending important tasks</small>
+                </article>
+            </section>
+
+            <section class="panel task-form-panel" id="taskFormPanel" hidden>
+                <div class="panel-header">
+                    <div>
+                        <p class="eyebrow">TASK DETAILS</p>
+                        <h2 id="formHeading">Create a new task</h2>
+                    </div>
+                    <button id="cancelTaskButton" class="subtle-button" type="button">
+                        Cancel
+                    </button>
+                </div>
+
+                <form id="assignmentForm">
+                    <div class="task-form-grid">
+                        <div class="task-field">
+                            <label for="title">Task title</label>
+                            <input id="title" type="text" maxlength="255"
+                                placeholder="Example: Final Project" required>
+                        </div>
+                        <div class="task-field">
+                            <label for="course">Course</label>
+                            <input id="course" type="text" maxlength="255"
+                                placeholder="Example: Software Development">
+                        </div>
+                        <div class="task-field">
+                            <label for="dueDate">Due date</label>
+                            <input id="dueDate" type="date" required>
+                        </div>
+                        <div class="task-field">
+                            <label for="priority">Priority</label>
+                            <select id="priority">
+                                <option value="Low">Low</option>
+                                <option value="Medium" selected>Medium</option>
+                                <option value="High">High</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button id="saveTaskButton" class="primary-button save-button"
+                        type="submit">Save task</button>
+                </form>
+            </section>
+
+            <section class="panel">
+                <div class="panel-header">
+                    <div>
+                        <p class="eyebrow">YOUR ASSIGNMENTS</p>
+                        <h2>All tasks</h2>
+                    </div>
+                    <span id="visibleCount" class="result-count"></span>
+                </div>
+
+                <div class="task-filters">
+                    <div class="task-field">
+                        <label for="statusFilter">Status</label>
+                        <select id="statusFilter">
+                            <option value="All">All tasks</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                    </div>
+                    <div class="task-field">
+                        <label for="priorityFilter">Priority</label>
+                        <select id="priorityFilter">
+                            <option value="All">All priorities</option>
+                            <option value="High">High</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Low">Low</option>
+                        </select>
+                    </div>
+                </div>
+
+                <p id="taskMessage" class="task-message" role="status"
+                    aria-live="polite"></p>
+                <div id="assignmentList" class="assignment-list">
+                    <p class="empty-state">Loading your tasks...</p>
+                </div>
+            </section>
+
+            <footer class="dashboard-footer">
+                <span>© 2026 DUE</span>
+                <span>Your deadlines, under control.</span>
+            </footer>
+        </main>
+    </div>
+</body>
+</html>
