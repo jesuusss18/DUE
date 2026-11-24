@@ -7,26 +7,22 @@ const { getLocalDateTime } = require("../src/utils/reminderLogic");
 
 async function runReminders() {
     try {
-        if (!process.env.TEST_EMAIL) {
-            throw new Error("TEST_EMAIL is missing.");
-        }
-
         const users = await Reminder.getUsersWithReminders();
 
         for (const user of users) {
-            if (user.email !== process.env.TEST_EMAIL) continue;
+            try {
+                const local = getLocalDateTime(user.timezone);
 
-            const local = getLocalDateTime(user.timezone);
-
-            if (local.time >= user.reminderTime) {
-                await processReminder(user);
-            } else {
-                console.log("Waiting for scheduled time.");
+                if (local.time >= user.reminderTime) {
+                    await processReminder(user);
+                }
+            } catch (error) {
+                console.error("Reminder failed:", error.message);
+                process.exitCode = 1;
             }
         }
-
     } catch (error) {
-        console.error("Reminder failed:", error.message);
+        console.error(error.message);
         process.exitCode = 1;
     } finally {
         await pool.end();

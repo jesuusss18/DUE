@@ -37,4 +37,3 @@ jobs:
           EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
           EMAIL_FROM_NAME: ${{ secrets.EMAIL_FROM_NAME }}
           APP_URL: ${{ secrets.APP_URL }}
-          TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
