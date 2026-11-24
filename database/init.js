@@ -32,6 +32,19 @@ async function initializeDatabase() {
                 created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
             );
         `);
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS reminder_history (
+                id UUID PRIMARY KEY,
+                user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+                reminder_type VARCHAR(30) NOT NULL CHECK (
+                    reminder_type IN ('daily', 'gap', 'all_caught_up')
+                ),
+                notification_date DATE NOT NULL,
+                next_activity_date DATE,
+                sent_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+                UNIQUE (user_id, notification_date)
+            );
+        `);
 
         // Create exams table
         await pool.query(`
