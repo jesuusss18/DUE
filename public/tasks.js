@@ -7,6 +7,7 @@ const taskMessage = document.getElementById("taskMessage");
 
 const statusFilter = document.getElementById("statusFilter");
 const priorityFilter = document.getElementById("priorityFilter");
+const searchInput = document.getElementById("searchInput");
 
 let assignments = [];
 let editingId = null;
@@ -109,20 +110,12 @@ function makeButton(text, className, onClick) {
 function displayAssignments() {
     assignmentList.replaceChildren();
 
-    const status = statusFilter.value;
-    const priority = priorityFilter.value;
-
-    const filtered = assignments.filter(task => {
-        const matchesStatus =
-            status === "All" ||
-            (status === "Pending" && !task.completed) ||
-            (status === "Completed" && task.completed);
-
-        const matchesPriority =
-            priority === "All" || task.priority === priority;
-
-        return matchesStatus && matchesPriority;
-    });
+    const filtered = filterAssignments(
+    assignments,
+    searchInput.value,
+    statusFilter.value,
+    priorityFilter.value
+);
 
     document.getElementById("visibleCount").textContent =
         `${filtered.length} of ${assignments.length} tasks`;
@@ -132,7 +125,7 @@ function displayAssignments() {
         empty.className = "empty-state";
         empty.textContent = assignments.length === 0
             ? "No assignments yet. Create your first task!"
-            : "No tasks match your filters.";
+            : "No tasks match your search or filters.";
         assignmentList.appendChild(empty);
         updateStats();
         return;
@@ -278,6 +271,7 @@ document.getElementById("cancelTaskButton").addEventListener(
 
 statusFilter.addEventListener("change", displayAssignments);
 priorityFilter.addEventListener("change", displayAssignments);
+searchInput.addEventListener("input", displayAssignments);
 
 document.getElementById("logoutButton").addEventListener(
     "click",
