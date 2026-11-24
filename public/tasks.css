@@ -163,8 +163,44 @@ button.primary-button {
 .task-message.error {
     color: #AD4E45;
 }
+/* Assignment search */
+
+.task-filters {
+    max-width: none;
+    grid-template-columns: minmax(0, 2fr) 1fr 1fr;
+    align-items: end;
+}
+
+.search-wrapper {
+    position: relative;
+}
+
+.search-wrapper input {
+    padding-left: 42px;
+    box-sizing: border-box;
+}
+
+.search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #68777A;
+    pointer-events: none;
+}
+
+.search-wrapper input::placeholder {
+    color: #929D9A;
+}
 
 @media (max-width: 800px) {
+    .task-filters {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .search-field {
+        grid-column: 1 / -1;
+    }
     .task-item-card {
         align-items: flex-start;
         flex-wrap: wrap;
