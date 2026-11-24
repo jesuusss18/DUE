@@ -1,0 +1,244 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings — DUE</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/dashboard.css">
+    <link rel="stylesheet" href="/settings.css">
+
+    <script src="/settings.js" defer></script>
+</head>
+
+<body>
+    <div class="app-layout">
+
+        <aside class="sidebar">
+            <a href="/" class="logo">due<span>.</span></a>
+
+            <p class="sidebar-label">WORKSPACE</p>
+
+            <nav class="sidebar-nav" aria-label="Workspace">
+                <a href="/dashboard.html">
+                    <span>◫</span> Overview
+                </a>
+
+                <a href="/tasks.html">
+                    <span>☑</span> My Tasks
+                </a>
+
+                <a href="/exams.html">
+                    <span>▤</span> Exams
+                </a>
+
+                <a href="/calendar.html">
+                    <span>▦</span> Calendar
+                </a>
+
+                <a href="/settings.html"
+                    class="active"
+                    aria-current="page">
+                    <span>⚙</span> Settings
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="user-profile">
+                    <div class="avatar" id="userAvatar">S</div>
+                    <div>
+                        <strong id="sidebarName">Student</strong>
+                        <span>Personal workspace</span>
+                    </div>
+                </div>
+
+                <button id="logoutButton" class="logout-button">
+                    Log out
+                </button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow">YOUR WORKSPACE</p>
+                    <h1>Settings</h1>
+                    <p class="subtitle">
+                        Manage your account and preferences.
+                    </p>
+                </div>
+            </header>
+
+            <section class="panel settings-panel">
+
+                <div class="panel-header">
+                    <div>
+                        <p class="eyebrow">PREFERENCES</p>
+                        <h2>Email notifications</h2>
+                    </div>
+                </div>
+
+                <form id="settingsForm">
+
+                    <div class="setting-row">
+                        <div class="setting-description">
+                            <h3>Smart email reminders</h3>
+                            <p>
+                                Receive reminders about upcoming
+                                assignments and exams.
+                            </p>
+                        </div>
+
+                        <label class="toggle-switch">
+                            <input
+                                type="checkbox"
+                                id="emailReminders"
+                                aria-label="Enable smart email reminders"
+                                disabled
+                            >
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <p id="reminderStatus" class="reminder-status">
+                        Loading preferences...
+                    </p>
+
+                    <div class="settings-grid">
+
+                        <div class="settings-field">
+                            <label for="reminderTime">
+                                Reminder time
+                            </label>
+
+                            <input
+                                type="time"
+                                id="reminderTime"
+                                value="19:00"
+                                required
+                                disabled
+                            >
+
+                            <small>
+                                Choose when to receive your reminders.
+                            </small>
+                        </div>
+
+                        <div class="settings-field">
+                            <label for="timezone">
+                                Timezone
+                            </label>
+
+                            <select id="timezone" required disabled>
+                            </select>
+
+                            <small>
+                                Reminders follow your local time.
+                            </small>
+                        </div>
+
+                    </div>
+
+                    <div class="reminder-info">
+                        <h3>Less noise. More focus.</h3>
+
+                        <p>
+                            Smart reminders are designed to help
+                            you stay organized without filling
+                            your inbox.
+                        </p>
+
+                        <ul>
+                            <li>
+                                Get reminders for assignments
+                                due tomorrow.
+                            </li>
+
+                            <li>
+                                Stay informed about upcoming exams.
+                            </li>
+
+                            <li>
+                                Receive one notice when you have
+                                several days without deadlines.
+                            </li>
+
+                            <li>
+                                No repeated or unnecessary emails.
+                            </li>
+
+                            <li>
+                                Completed assignments are excluded.
+                            </li>
+                        </ul>
+
+                        <small>
+                            Automatic email delivery will be
+                            available once the reminder service
+                            is activated.
+                        </small>
+                    </div>
+
+                    <div class="settings-actions">
+                        <button
+                            id="saveSettingsButton"
+                            class="primary-button"
+                            type="submit"
+                            disabled
+                        >
+                            Save preferences
+                        </button>
+
+                        <p
+                            id="settingsMessage"
+                            class="settings-message"
+                            role="status"
+                            aria-live="polite"
+                        ></p>
+                    </div>
+
+                </form>
+            </section>
+
+            <section class="panel settings-panel">
+
+                <div class="panel-header">
+                    <div>
+                        <p class="eyebrow">YOUR ACCOUNT</p>
+                        <h2>Account information</h2>
+                    </div>
+                </div>
+
+                <div class="settings-field">
+                    <label for="accountEmail">
+                        Email address
+                    </label>
+
+                    <input
+                        id="accountEmail"
+                        type="email"
+                        readonly
+                    >
+
+                    <small>
+                        Reminders will be sent to this email address.
+                    </small>
+                </div>
+
+            </section>
+
+            <footer class="dashboard-footer">
+                <span>© 2026 DUE</span>
+                <span>Your deadlines, under control.</span>
+            </footer>
+
+        </main>
+    </div>
+</body>
+</html>

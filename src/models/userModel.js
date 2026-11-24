@@ -1,4 +1,3 @@
-
 const pool = require("../config/database");
 
 // Create a new user
@@ -40,8 +39,50 @@ async function findUserById(id) {
     return result.rows[0] || null;
 }
 
+// Get reminder preferences
+async function getReminderPreferences(userId) {
+    const result = await pool.query(
+        `SELECT
+            email,
+            email_reminders AS "emailReminders",
+            TO_CHAR(reminder_time, 'HH24:MI') AS "reminderTime",
+            timezone
+         FROM users
+         WHERE id = $1`,
+        [userId]
+    );
+
+    return result.rows[0] || null;
+}
+
+// Update reminder preferences
+async function updateReminderPreferences(userId, preferences) {
+    const result = await pool.query(
+        `UPDATE users
+         SET email_reminders = $1,
+             reminder_time = $2,
+             timezone = $3
+         WHERE id = $4
+         RETURNING
+             email,
+             email_reminders AS "emailReminders",
+             TO_CHAR(reminder_time, 'HH24:MI') AS "reminderTime",
+             timezone`,
+        [
+            preferences.emailReminders,
+            preferences.reminderTime,
+            preferences.timezone,
+            userId
+        ]
+    );
+
+    return result.rows[0] || null;
+}
+
 module.exports = {
     createUser,
     findUserByEmail,
-    findUserById
+    findUserById,
+    getReminderPreferences,
+    updateReminderPreferences
 };
