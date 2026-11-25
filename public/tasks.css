@@ -193,6 +193,26 @@ button.primary-button {
     color: #929D9A;
 }
 
+/* Overdue assignments */
+
+.overdue-stat {
+    background: #FFF5F5;
+    border: 1px solid #F0D0D0;
+}
+
+.overdue-stat strong {
+    color: #B54747;
+}
+
+.task-item-card.is-overdue {
+    border-color: #E4B4B4;
+}
+
+.task-details .overdue-date {
+    color: #B54747;
+    font-weight: 600;
+}
+
 @media (max-width: 800px) {
     .task-filters {
         grid-template-columns: repeat(2, minmax(0, 1fr));

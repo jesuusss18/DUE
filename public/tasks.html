@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="/tasks.css">
     <script src="/assignmentSearch.js" defer></script>
     <script src="/tasks.js" defer></script>
-
 </head>
 <body>
     <div class="app-layout">
@@ -73,10 +72,10 @@
                     <strong id="completedTasks">—</strong>
                     <small>Finished assignments</small>
                 </article>
-                <article class="stat-card accent-card">
-                    <span>High priority</span>
-                    <strong id="highPriorityTasks">—</strong>
-                    <small>Pending important tasks</small>
+                <article class="stat-card overdue-stat">
+                    <span>Overdue</span>
+                    <strong id="overdueTasks">—</strong>
+                    <small>Past due assignments</small>
                 </article>
             </section>
 
@@ -156,6 +155,7 @@
                             <option value="All">All tasks</option>
                             <option value="Pending">Pending</option>
                             <option value="Completed">Completed</option>
+                            <option value="Overdue">Overdue</option>
                         </select>
                     </div>
                     <div class="task-field">

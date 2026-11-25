@@ -1,3 +1,6 @@
+function isOverdue(task, today = new Date().toLocaleDateString("sv-SE")) {
+    return !task.completed && task.dueDate < today;
+}
 
 function filterAssignments(
     assignments,
@@ -18,20 +21,17 @@ function filterAssignments(
         const matchesStatus =
             status === "All" ||
             (status === "Pending" && !task.completed) ||
-            (status === "Completed" && task.completed);
+            (status === "Completed" && task.completed) ||
+            (status === "Overdue" && isOverdue(task));
 
         const matchesPriority =
             priority === "All" ||
             task.priority === priority;
 
-        return (
-            matchesSearch &&
-            matchesStatus &&
-            matchesPriority
-        );
+        return matchesSearch && matchesStatus && matchesPriority;
     });
 }
 
 if (typeof module !== "undefined" && module.exports) {
-    module.exports = { filterAssignments };
+    module.exports = { filterAssignments, isOverdue };
 }
