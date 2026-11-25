@@ -1,4 +1,5 @@
 jest.mock("../src/config/database", () => require("../tests/testDatabase"));
+jest.mock("dotenv", () => ({ config: jest.fn() }));
 
 process.env.JWT_SECRET = "due-integration-test-secret";
 
