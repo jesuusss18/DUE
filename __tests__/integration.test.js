@@ -168,6 +168,47 @@ test("Rejects invalid reminder preferences", async () => {
     }).expect(400);
 });
 
+test("Returns JSON for unknown API endpoints", async () => {
+    const res = await request(app)
+        .get("/api/unknown")
+        .expect(404);
+
+    expect(res.body.error).toBe("API endpoint not found.");
+});
+
+test("Rejects malformed JSON requests", async () => {
+    const res = await agent.post("/api/assignments")
+        .set("Content-Type", "application/json")
+        .send('{"title":')
+        .expect(400);
+
+    expect(res.body.error).toBe("Invalid JSON format.");
+});
+
+test.each(["assignments", "exams"])(
+    "Rejects invalid IDs for %s", async route => {
+        const url = `/api/${route}/invalid-id`;
+
+        await agent.put(url)
+            .send({ title: "Updated title" })
+            .expect(400);
+
+        await agent.delete(url).expect(400);
+    }
+);
+
+test.each(["title", "course"])(
+    "Rejects an assignment with a long %s", async field => {
+        await agent.post("/api/assignments")
+            .send({
+                title: "Math Homework",
+                dueDate: "2026-12-15",
+                [field]: "a".repeat(256)
+            })
+            .expect(400);
+    }
+);
+
 test("Logout removes the session", async () => {
     await agent.post("/api/auth/logout").expect(200);
     await agent.get("/api/auth/me").expect(401);

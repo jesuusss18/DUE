@@ -8,6 +8,7 @@ const assignmentRoutes = require("./src/routes/assignmentRoutes");
 const authRoutes = require("./src/routes/authRoutes");
 const examRoutes = require("./src/routes/examRoutes");
 const settingsRoutes = require("./src/routes/settingsRoutes");
+const errorHandler = require("./src/middleware/errorHandler");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -28,17 +29,21 @@ app.get("/health", (req, res) => {
     });
 });
 
-// Assignment routes
+// API routes
 app.use("/api/assignments", assignmentRoutes);
-
-// Authentication routes
 app.use("/api/auth", authRoutes);
-
-// Exam routes
 app.use("/api/exams", examRoutes);
-
-// Settings routes
 app.use("/api/settings", settingsRoutes);
+
+// Handle unknown API endpoints
+app.use("/api", (req, res) => {
+    res.status(404).json({
+        error: "API endpoint not found."
+    });
+});
+
+// Handle unexpected errors
+app.use(errorHandler);
 
 // Start the server
 if (require.main === module) {

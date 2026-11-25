@@ -29,11 +29,13 @@ function validateAssignment(data, partial = false) {
     )) return false;
 
     if ("title" in data &&
-        (typeof data.title !== "string" || !data.title.trim()))
-        return false;
+    (typeof data.title !== "string" ||
+     !data.title.trim() ||
+     data.title.length > 255)) return false;
 
-    if ("course" in data && typeof data.course !== "string")
-        return false;
+    if ("course" in data &&
+        (typeof data.course !== "string" ||
+        data.course.length > 255)) return false;
 
     if ("dueDate" in data && !validDate(data.dueDate))
         return false;
