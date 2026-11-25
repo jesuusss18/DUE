@@ -84,9 +84,7 @@ function closeForm() {
 
 function updateStats() {
     const completed = assignments.filter(task => task.completed).length;
-    const highPriority = assignments.filter(
-        task => !task.completed && task.priority === "High"
-    ).length;
+    const overdue = assignments.filter(task => isOverdue(task)).length;
 
     document.getElementById("totalTasks").textContent =
         assignments.length;
@@ -94,8 +92,8 @@ function updateStats() {
         assignments.length - completed;
     document.getElementById("completedTasks").textContent =
         completed;
-    document.getElementById("highPriorityTasks").textContent =
-        highPriority;
+    document.getElementById("overdueTasks").textContent =
+        overdue;
 }
 
 function makeButton(text, className, onClick) {
@@ -153,6 +151,12 @@ function displayAssignments() {
 
         const due = document.createElement("p");
         due.textContent = `Due: ${assignment.dueDate}`;
+
+        if (isOverdue(assignment)) {
+            due.textContent += " — Overdue";
+            due.classList.add("overdue-date");
+            card.classList.add("is-overdue");
+}
 
         const priority = document.createElement("p");
         priority.textContent = `Priority: ${assignment.priority}`;

@@ -1,7 +1,4 @@
-
-const {
-    filterAssignments
-} = require("../public/assignmentSearch");
+const { filterAssignments, isOverdue } = require("../public/assignmentSearch");
 
 const assignments = [
     {
@@ -113,4 +110,54 @@ describe("Assignment Search and Filters", () => {
         expect(filterAssignments([], "Final")).toEqual([]);
     });
 
+});
+describe("Overdue assignments", () => {
+    const today = "2026-11-25";
+
+    test("Past pending task is overdue", () => {
+        const task = {
+            dueDate: "2026-11-24",
+            completed: false
+        };
+
+        expect(isOverdue(task, today)).toBe(true);
+    });
+
+    test("Task due today is not overdue", () => {
+        const task = {
+            dueDate: today,
+            completed: false
+        };
+
+        expect(isOverdue(task, today)).toBe(false);
+    });
+
+    test("Future task is not overdue", () => {
+        const task = {
+            dueDate: "2026-11-26",
+            completed: false
+        };
+
+        expect(isOverdue(task, today)).toBe(false);
+    });
+
+    test("Completed task is not overdue", () => {
+        const task = {
+            dueDate: "2026-11-24",
+            completed: true
+        };
+
+        expect(isOverdue(task, today)).toBe(false);
+    });
+
+    test("Overdue filter returns only overdue tasks", () => {
+        const tasks = [
+            { dueDate: "2020-01-01", completed: false },
+            { dueDate: "2020-01-01", completed: true },
+            { dueDate: "2099-01-01", completed: false }
+        ];
+
+        expect(filterAssignments(tasks, "", "Overdue"))
+            .toEqual([tasks[0]]);
+    });
 });
