@@ -29,4 +29,8 @@ async function runReminders() {
     }
 }
 
-runReminders();
+if (require.main === module) {
+    runReminders();
+}
+
+module.exports = { runReminders };
